@@ -6,6 +6,7 @@
 import React, { useEffect, useContext } from "react";
 import firebase from "../firebase";
 import { Context } from "../context";
+import axios from "axios";
 
 const FirebaseAuthState = ({ children }) => {
   const { dispatch } = useContext(Context);
@@ -24,6 +25,23 @@ const FirebaseAuthState = ({ children }) => {
         // if it is verified, you get the same user information in the backend too
         // then you can decide to either save this user in your database or update the existing user
         // then send the user information back to client
+        axios
+          .post(
+            "http://localhost:8000/api/current-user",
+            {},
+            {
+              headers: {
+                token,
+              },
+            }
+          )
+          .then((res) => {
+            console.log("RES =====> ", res);
+            // dispatch({
+            //   type: "LOGIN",
+            //   payload: res.data,
+            // });
+          });
       }
     });
   }, []);
